@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Accueil-IGetSense</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style/style_2.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@latest"></script>
+
+</head>
+<body>
+    <div class="popup">
+        <div class="content"></div>
+        <div class="dots"></div>
+        <div class="trial-name"></div>
+        <div class="nav">
+            <button class="nav-btn active" data-page="home" onclick="window.location.href='accueil.html'">
+                <span class="material-icons icon">home</span>
+                <span class="label">Accueil</span>
+            </button>
+            
+            <button class="nav-btn" data-page="challenges" onclick="window.location.href='epreuves.html'">
+                <span class="material-icons icon">assignment</span>
+                <span class="label">Épreuves</span>
+            </button>
+            
+            <button class="nav-btn plus-btn" data-page="add" onclick="window.location.href='nouveau.html'">
+                <span class="material-icons icon">add</span>
+                <span class="label">Nouveau</span>
+            </button>
+            
+            <button class="nav-btn" data-page="chat" onclick="window.location.href='chat-ia.html'">
+                <span class="material-icons icon">chat</span>
+                <span class="label">Chat</span>
+            </button>
+            
+            <button class="nav-btn" data-page="profile" onclick="window.location.href='profil.html'">
+                <span class="material-icons icon">person</span>
+                <span class="label">Profil</span>
+            </button>
+        </div>
+        <div class="loading">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <script src="script/script_2.js"></script>
+</body>
+</html>

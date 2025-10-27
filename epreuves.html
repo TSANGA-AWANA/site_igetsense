@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Épreuves - IGetSense</title>
+  <link rel="stylesheet" href="style/style_1.css">
+</head>
+<body>
+  <header>
+    <h1>📚 Banque d'Épreuves</h1>
+    <div class="search-filter">
+      <input type="text" id="searchInput" placeholder="🔍 Rechercher une épreuve...">
+      <div class="quick-filters">
+        <button class="filter-btn active" data-filter="all">Toutes</button>
+        <button class="filter-btn" data-filter="historique">Historique</button>
+        <button class="filter-btn" data-filter="favoris">⭐ Favoris</button>
+        <button class="filter-btn" data-filter="natation">Natation</button>
+        <button class="filter-btn" data-filter="bac">Baccalauréat</button>
+        <button class="filter-btn" data-filter="f3">F3</button>
+        <button class="filter-btn" data-filter="anglais">Anglais</button>
+      </div>
+    </div>
+    <button class="btn-upload" id="btnUpload">📤 Envoyer une épreuve</button>
+  </header>
+
+  <section class="epreuves-grid" id="epreuvesGrid">
+    <!-- Les épreuves seront chargées dynamiquement ici -->
+  </section>
+
+  <!-- Modal pour l'envoi d'épreuve -->
+  <div class="modal" id="uploadModal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>Envoyer une épreuve</h2>
+      <form id="uploadForm">
+        <input type="text" id="titre" placeholder="Titre de l'épreuve" required>
+        <input type="text" id="matiere" placeholder="Matière" required>
+        <input type="text" id="etablissement" placeholder="Établissement" required>
+        <input type="number" id="annee" placeholder="Année" required>
+        <input type="file" id="fichier" accept=".pdf" required>
+        <button type="submit" class="btn-submit">Envoyer</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script/script_1.js"></script>
+</body>
+</html>

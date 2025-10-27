@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Prépa Examens</title>
+    <style>
+        /* Styles améliorés */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .quiz-container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .flashcard {
+            cursor: pointer;
+            padding: 20px;
+            margin: 10px;
+            background: #e8f4ff;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .flashcard:hover {
+            transform: scale(1.02);
+        }
+        .timer {
+            color: #d32f2f;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #answers button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+        }
+        #leaderboard {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2 id="mode-title">Mode Révision</h2>
+        <div id="flashcard" class="flashcard hidden" onclick="flipCard()"></div>
+        <h2 id="question" class="hidden"></h2>
+        <p id="timer" class="timer hidden"></p>
+        <div id="answers"></div>
+        <p id="score" class="hidden">Score : <span id="score-value">0</span></p>
+        <p id="stats" class="hidden"></p>
+        <button onclick="startQuiz()">Démarrer le Quiz</button>
+        <button onclick="startRevision()">Mode Révision</button>
+        <button onclick="showLeaderboard()">Classement</button>
+        <button onclick="recommend()">Recommander à un ami</button>
+        <div id="leaderboard" class="hidden"></div>
+    </div>
+
+    <script>
+        let questions = []; // Les questions seront chargées depuis la base de données
+        let currentQuestion = 0;
+        let score = 0;
+        let timeLeft = 20; // Timer par question
+        let timer;
+        let isQuizMode = false;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+
+        // Charger les questions depuis la base de données
+        async function fetchQuestions() {
+            try {
+                const response = await fetch('db.php');
+                if (!response.ok) {
+                    throw new Error('Erreur de chargement des questions');
+                }
+                questions = await response.json();
+                startQuiz(); // Démarrer le quiz après avoir chargé les questions
+            } catch (error) {
+                console.error("Erreur :", error);
+                alert("Impossible de charger les questions. Veuillez réessayer plus tard.");
+            }
+        }
+
+        // Démarrer le quiz
+        function startQuiz() {
+            isQuizMode = true;
+            document.getElementById("mode-title").textContent = "Mode Quiz";
+            document.getElementById("flashcard").classList.add("hidden");
+            document.getElementById("question").classList.remove("hidden");
+            document.getElementById("timer").classList.remove("hidden");
+            document.getElementById("score").classList.remove("hidden");
+            document.getElementById("stats").classList.add("hidden");
+            score = 0;
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            currentQuestion = 0;
+            loadQuestion();
+        }
+
+        // Charger une question
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                showStats();
+                return;
+            }
+
+            const q = questions[currentQuestion];
+            document.getElementById("question").textContent = q.question;
+            document.getElementById("answers").innerHTML = "";
+
+            q.answers.forEach((answer, index) => {
+                const btn = document.createElement("button");
+                btn.textContent = answer;
+                btn.onclick = () => selectAnswer(index);
+                document.getElementById("answers").appendChild(btn);
+            });
+
+            startTimer();
+        }
+
+        // Démarrer le timer
+        function startTimer() {
+            timeLeft = 20; // Réinitialiser le timer à 20 secondes
+            document.getElementById("timer").textContent = "Temps restant : " + timeLeft + "s";
+            clearInterval(timer);
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById("timer").textContent = "Temps restant : " + timeLeft + "s";
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    incorrectAnswers++;
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        // Sélectionner une réponse
+        function selectAnswer(index) {
+            clearInterval(timer);
+            const correctIndex = questions[currentQuestion].correct;
+            const buttons = document.querySelectorAll("#answers button");
+
+            if (index === correctIndex) {
+                score++;
+                correctAnswers++;
+                buttons[index].style.backgroundColor = "green";
+            } else {
+                incorrectAnswers++;
+                buttons[index].style.backgroundColor = "red";
+                buttons[correctIndex].style.backgroundColor = "green";
+            }
+
+            document.getElementById("score-value").textContent = score;
+            setTimeout(nextQuestion, 2000);
+        }
+
+        // Passer à la question suivante
+        function nextQuestion() {
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        // Afficher les statistiques
+        function showStats() {
+            const percentage = ((correctAnswers / questions.length) * 100).toFixed(2);
+            document.getElementById("stats").textContent = `Résultat : ${correctAnswers} bonnes réponses, ${incorrectAnswers} mauvaises. Taux de réussite : ${percentage}%`;
+            document.getElementById("stats").classList.remove("hidden");
+            saveScore();
+        }
+
+        // Sauvegarder le score dans la base de données
+        async function saveScore() {
+            const name = prompt("Entrez votre nom pour enregistrer votre score :");
+            if (name) {
+                try {
+                    await fetch('db.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name, score })
+                    });
+                } catch (error) {
+                    console.error("Erreur :", error);
+                }
+            }
+        }
+
+        // Afficher le classement
+        async function showLeaderboard() {
+            try {
+                const response = await fetch('leaderboard.php');
+                const leaderboard = await response.json();
+                
+                let html = "<h3>Classement</h3><ol>";
+                leaderboard.forEach(entry => {
+                    html += `<li>${entry.name}: ${entry.score}</li>`;
+                });
+                document.getElementById("leaderboard").innerHTML = html + "</ol>";
+                document.getElementById("leaderboard").classList.remove("hidden");
+            } catch (error) {
+                console.error("Erreur :", error);
+            }
+        }
+
+        // Recommander à un ami
+        function recommend() {
+            const url = window.location.href;
+            const message = "Découvre ce super quiz pour te préparer aux examens ! " + url;
+            window.open(`mailto:?subject=Recommandation de quiz&body=${encodeURIComponent(message)}`);
+        }
+
+        // Démarrer la révision
+        function startRevision() {
+            isQuizMode = false;
+            document.getElementById("mode-title").textContent = "Mode Révision";
+            document.getElementById("flashcard").classList.remove("hidden");
+            document.getElementById("question").classList.add("hidden");
+            document.getElementById("answers").innerHTML = "";
+            currentQuestion = 0;
+            showFlashcard();
+        }
+
+        // Afficher une flashcard
+        function showFlashcard() {
+            if (currentQuestion >= questions.length) {
+                alert("Révision terminée !");
+                return;
+            }
+            document.getElementById("flashcard").textContent = questions[currentQuestion].question;
+            document.getElementById("flashcard").dataset.answer = questions[currentQuestion].answers[questions[currentQuestion].correct];
+        }
+
+        // Retourner la flashcard
+        function flipCard() {
+            let card = document.getElementById("flashcard");
+            if (card.textContent === card.dataset.answer) {
+                currentQuestion++;
+                showFlashcard();
+            } else {
+                card.textContent = card.dataset.answer;
+            }
+        }
+
+        // Charger les questions au démarrage
+        fetchQuestions();
+    </script>
+</body>
+</html>

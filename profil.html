@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style_5.css">
+    <title>Profil Étudiant Complet</title>
+</head>
+<body>
+    <button id="openPopup">👤 Ouvrir le Profil</button>
+
+    <div id="profilePopup" class="popup">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <h2>Profil Étudiant</h2>
+            
+            <div class="profile-photo-container">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" 
+                     class="profile-photo" 
+                     id="profilePhoto"
+                     alt="Photo de profil">
+                <input type="file" id="photoInput" accept="image/*">
+                <label for="photoInput" class="upload-label">📷 Changer</label>
+            </div>
+
+            <form id="profileForm">
+                <div class="form-group">
+                    <label>Nom :</label>
+                    <input type="text" id="nom" value="Dupont" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Prénom :</label>
+                    <input type="text" id="prenom" value="Marie" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Email :</label>
+                    <input type="email" id="email" value="marie.dupont@ecole.fr" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Téléphone :</label>
+                    <input type="tel" id="tel" value="06 12 34 56 78" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Classe :</label>
+                    <input type="text" id="classe" value="Terminale" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Établissement :</label>
+                    <input type="text" id="etablissement" value="Lycée Descartes" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Type d'études :</label>
+                    <select id="studyType" disabled>
+                        <option value="generaliste">Généraliste</option>
+                        <option value="technicien">Technicien</option>
+                    </select>
+                </div>
+
+                <div class="form-group specialite-container" style="display: none;">
+                    <label>Spécialité :</label>
+                    <select id="specialite" disabled>
+                        <option>Informatique</option>
+                        <option>Électronique</option>
+                        <option>Mécanique</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Série :</label>
+                    <select id="serie" disabled>
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                        <option>E</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Genre :</label>
+                    <select id="genre" disabled>
+                        <option>Féminin</option>
+                        <option>Masculin</option>
+                        <option>Autre</option>
+                    </select>
+                </div>
+            </form>
+            
+            <div class="button-group">
+                <button id="editButton">✏️ Modifier</button>
+                <button id="logoutButton">🔒 Déconnexion</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
+    <script src='script/script_5.js'></script>
+</body>
+</html>

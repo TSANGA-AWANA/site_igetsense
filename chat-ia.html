@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat IA - IGetSense</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="style/style_3.css" />
+</head>
+<body>
+  <!-- Barre latérale -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>IGetSense</h2>
+      <button class="theme-toggle" id="theme-toggle">🌙</button>
+    </div>
+    <button onclick="toggleSidebar()">☰ Fermer</button>
+    <button onclick="newChat()">New Chat</button>
+    <div class="chat-history" id="chat-history">
+      <!-- Les chats seront mis à jour ici -->
+    </div>
+    <div class="bottom-buttons">
+      <button onclick="window.location.href='accueil.html'">Accueil</button>
+      <button onclick="window.location.href='epreuves.html'">Épreuve</button>
+      <button onclick="window.location.href='profil.html'">Profil</button>
+      <button onclick="window.location.href='application-mobile.htmlhttps://play.google.com/store/apps/details?id=com.innotechafrica.igs '">Application Mobile</button>
+    </div>
+  </div>
+
+  <!-- Bouton pour rouvrir la sidebar -->
+  <button id="open-sidebar-btn" class="open-sidebar-btn" onclick="toggleSidebar()">☰</button>
+
+  <!-- Zone de chat -->
+  <div class="chat-container" id="chat-container">
+    <h3>Discussion</h3>
+    <div class="chat-messages" id="chat-messages">
+      <!-- Les messages du chat seront affichés ici -->
+    </div>
+  </div>
+
+  <!-- Champ d'entrée -->
+  <div class="chat-input-container" id="chat-input-container">
+    <input type="text" id="user-input" placeholder="Écrivez votre message..." onkeypress="handleKeyPress(event)" />
+    <button onclick="sendMessage()">Envoyer</button>
+    <button onclick="sendFile()">📎</button>
+    <button onclick="newChat()">New Chat</button>
+  </div>
+
+  <script src="script/script_3.js"></script>
+</body>
+</html>

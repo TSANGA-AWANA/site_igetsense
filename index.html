@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style_4.css">
+    <title>Inscription - IGetSense</title>
+</head>
+<body>
+    <button class="primary-btn" onclick="openModal(1)">Commencer l'inscription</button>
+
+    <!-- Étape 1 - Informations Personnelles -->
+    <div class="modal" id="modal1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Informations Personnelles</h2>
+                <div class="progress-steps">
+                    <div class="step">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" required>
+                <div class="error-message">Ce champ est requis</div>
+            </div>
+
+            <div class="input-group">
+                <label for="prenom">Prénom</label>
+                <input type="text" id="prenom" required>
+                <div class="error-message">Ce champ est requis</div>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Adresse email</label>
+                <input type="email" id="email" required>
+                <div class="error-message">Veuillez entrer une adresse valide</div>
+            </div>
+
+            <div class="input-group">
+                <label for="telephone">Téléphone</label>
+                <input type="tel" id="telephone" required pattern="[0-9]{09}">
+                <div class="error-message">Numéro à 9 chiffres (ex: 061234567)</div>
+            </div>
+
+            <div class="input-group">
+                <label>Genre</label>
+                <div class="gender-group">
+                    <div class="gender-option">
+                        <input type="radio" id="homme" name="genre" value="Homme" required>
+                        <label class="gender-label" for="homme">Homme</label>
+                    </div>
+                    <div class="gender-option">
+                        <input type="radio" id="femme" name="genre" value="Femme">
+                        <label class="gender-label" for="femme">Femme</label>
+                    </div>
+                    <div class="gender-option">
+                        <input type="radio" id="autre" name="genre" value="Autre">
+                        <label class="gender-label" for="autre">Autre</label>
+                    </div>
+                </div>
+                <div class="error-message">Veuillez sélectionner une option</div>
+            </div>
+
+            <div class="button-group">
+                <button class="primary-btn" onclick="nextModal(1, 2)">Suivant</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Étape 2 - Informations Académiques -->
+    <div class="modal" id="modal2">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Informations Académiques</h2>
+                <div class="progress-steps">
+                    <div class="step">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="type">Type d'études</label>
+                <select id="type" required onchange="toggleSpecialiteAndSerie()">
+                    <option value="">Sélectionner...</option>
+                    <option value="Generaliste">Généraliste</option>
+                    <option value="Technicien">Technicien</option>
+                </select>
+                <div class="error-message">Veuillez sélectionner une option</div>
+            </div>
+
+            <div class="input-group" id="specialite-group" style="display: none;">
+                <label for="specialite">Spécialité</label>
+                <select id="specialite" required>
+                    <option value="">Sélectionner une spécialité</option>
+                    <option value="industriel" data-series="F1,F2,F3,F4">Industriel</option>
+                    <option value="commerciale" data-series="SES,ESF,COM,ESCOM">Commerciale</option>
+                </select>
+                <div class="error-message">Veuillez sélectionner une spécialité</div>
+            </div>
+
+            <div class="input-group">
+                <label for="serie">Série</label>
+                <select id="serie" required>
+                    <option value="">Choisissez une série</option>
+                </select>
+                <div class="error-message">Veuillez sélectionner une série</div>
+            </div>
+
+             <div class="input-group">
+                <label for="examen">Examen</label>
+                <select id="examen" required>
+                    <option value="">Sélectionner...</option>
+                    <option value="Baccalauréat">Baccalauréat</option>
+                    <option value="Probatoire">Probatoire</option>
+                    <option value="BEPC">BEPC</option>
+                    <option value="CAP">CAP</option>
+                    <option value="BREVET">BREVET</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                <div class="error-message">Veuillez sélectionner un examen</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="classe">Classe</label>
+                <select id="classe" required>
+                    <option value="">Sélectionner...</option>
+                    <option value="Terminale">Terminale</option>
+                    <option value="Premiere">Première</option>
+                    <option value="3eme">3ème</option>
+                    <option value="4annee">4ème année</option>
+                </select>
+                <div class="error-message">Veuillez sélectionner une classe</div>
+            </div>
+
+            <div class="input-group">
+                <label for="etablissement">Établissement</label>
+                <input type="text" id="etablissement" required>
+                <div class="error-message">Ce champ est requis</div>
+            </div>
+
+            <div class="button-group">
+                <button class="secondary-btn" onclick="prevModal(2, 1)">Retour</button>
+                <button class="primary-btn" onclick="nextModal(2, 3)">Suivant</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Étape 3 - Confirmation -->
+    <div class="modal" id="modal3">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmation</h2>
+                <div class="progress-steps">
+                    <div class="step">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                </div>
+            </div>
+
+            <div id="recap-content"></div>
+
+            <div class="input-group">
+                <label style="display: flex; gap: 0.5rem; align-items: center;">
+                    <input type="checkbox" id="politique" required>
+                    J'accepte les <a href= "https://getremoteconfig-git-main-tsanga-awanas-projects.vercel.app/conditions-generales"  target="_blank" style="color: var(--primary-color);">conditions générales d'utilisation</a>
+                    et les <a href="https://getremoteconfig-git-main-tsanga-awanas-projects.vercel.app/politique-confidentialite" target="_blank" style="color: var(--primary-color);">politique de confidentialité</a> 
+                </label>
+                <div class="error-message">Vous devez accepter les conditions</div>
+            </div>
+
+            <div class="button-group">
+                <button class="secondary-btn" onclick="prevModal(3, 2)">Retour</button>
+                <button class="primary-btn" onclick="submitForm()">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="redirectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+               <h2>Ce numéro est déjà utilisé 📱</h2>
+            </div>
+
+             <p>Voulez-vous être redirigé vers la page de connexion ?</p>
+
+        <div class="button-group">
+           <button class="secondary-btn" onclick="stayHere()">Non</button>
+           <button class="primary-btn" onclick="goConnexion()">Oui</button>
+        </div>
+    </div>
+           </div>
+    <div id="successModal" class="modal d-none">
+        <div class="modal-content">
+            <h2>Inscription réussie !</h2>
+            <p>Vous serez redirigé vers la page d'accueil dans quelques secondes...</p>
+        </div>
+    </div>
+    <!-- Bannière cookies -->
+  <div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#222; color:#fff; padding:15px; text-align:center; z-index:1000;">
+    Ce site utilise des cookies pour améliorer votre expérience. 
+    <button id="acceptCookies" style="margin-left:10px; padding:5px 10px;">Accepter</button>
+    <button id="rejectCookies" style="margin-left:5px; padding:5px 10px;">Refuser</button>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
+    <script src="script/compte.js"></script>
+    <script src="script/script_4.js"></script>
+</body>
+</html>
